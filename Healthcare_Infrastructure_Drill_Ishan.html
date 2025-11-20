@@ -1,0 +1,264 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Healthcare Infrastructure Drill: Repair, Align, Circumvent</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root{
+      --fg:#0f172a;
+      --muted:#475569;
+      --bg:#f8fafc;
+      --card:#ffffff;
+      --border:#e2e8f0;
+      --brand:#2563eb;
+      --brand2:#22c55e;
+      --warn:#ef4444;
+      --okbg:#ecfdf5;
+      --badbg:#fef2f2;
+      --keybg:#f1f5f9;
+      --shadow: 0 10px 20px rgba(15,23,42,.06), 0 6px 6px rgba(15,23,42,.04);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--fg);background:linear-gradient(180deg,#f6fbff 0,#ffffff 140px)}
+    header{position:sticky;top:0;background:rgba(255,255,255,.85);backdrop-filter:saturate(160%) blur(6px);border-bottom:1px solid var(--border);z-index:10}
+    .wrap{max-width:1000px;margin:0 auto;padding:16px}
+    .title{display:flex;align-items:center;gap:12px}
+    .logo{width:40px;height:40px;border-radius:10px;background:conic-gradient(from 180deg,#93c5fd,#a7f3d0,#fde68a,#93c5fd);box-shadow:var(--shadow)}
+    h1{margin:0;font-size:22px}
+    .sub{margin:4px 0 0 0;color:var(--muted);font-size:14px}
+    main{max-width:1000px;margin:0 auto;padding:16px}
+    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:14px}
+    h2{margin:0 0 10px 0;font-size:18px}
+    .small{font-size:13px;color:var(--muted)}
+    .controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+    button{padding:10px 14px;font-size:14px;border:1px solid var(--border);border-radius:10px;background:#f8fafc;cursor:pointer;transition:.2s transform,.2s background}
+    button:hover{background:#eef2ff;transform:translateY(-1px)}
+    .primary{background:#e0e7ff;border-color:#c7d2fe}
+    .scenario{display:grid;grid-template-columns:1fr 160px;gap:10px;align-items:center;padding:12px 0;border-top:1px dashed var(--border)}
+    .scenario:first-child{border-top:0}
+    select,input[type="text"],textarea{width:100%;border:1px solid var(--border);border-radius:10px;padding:10px;font-size:14px;background:#fff}
+    textarea{height:96px}
+    .score{font-weight:700}
+    .correct{background:var(--okbg)}
+    .incorrect{background:var(--badbg)}
+    .key{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+    .key>div{background:var(--keybg);border:1px solid var(--border);border-radius:10px;padding:10px}
+    .pill{display:inline-block;padding:2px 10px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--muted);background:#fff}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .footer{margin-top:10px;color:var(--muted);font-size:12px}
+    .bar{position:relative;height:10px;background:#eef2ff;border-radius:999px;overflow:hidden}
+    .fill{position:absolute;left:0;top:0;height:100%;width:0;background:linear-gradient(90deg,#60a5fa,#22c55e);transition:width .25s}
+    .timerline{display:flex;align-items:center;gap:8px;margin:8px 0}
+    .badge{font-weight:700}
+    .mono{font-family:ui-monospace,Menlo,Consolas,monospace}
+    .hint{margin-top:8px;background:#f8fafc;border:1px dashed var(--border);border-radius:10px;padding:8px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="title">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Healthcare Infrastructure Drill: Repair, Align, Circumvent</h1>
+          <p class="sub">Fast team exercise that makes the study concrete by sorting real cases and proposing one change that removes patient work</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <b>Definitions</b>
+      <div class="key">
+        <div><b>Repair</b><br><span class="small">Fix a person level mistake like a wrong code or a lost report</span></div>
+        <div><b>Align</b><br><span class="small">Connect organizations or departments so information and timing match</span></div>
+        <div><b>Circumvent</b><br><span class="small">Work around rules time or money by using another path</span></div>
+      </div>
+      <div class="hint small">These three kinds of work come from the study of new parents navigating fragmented healthcare in the United States</div>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>1. Sort the scenarios</h2>
+        <div class="small">Teams of three or four. You have <span class="badge" id="clock">03:00</span></div>
+        <div class="timerline">
+          <div class="bar" style="flex:1"><div id="fill" class="fill"></div></div>
+          <button id="start" class="primary">Start timer</button>
+        </div>
+        <div class="controls">
+          <input id="team" type="text" placeholder="Team name">
+          <button id="check">Check answers</button>
+          <button id="reset">Reset</button>
+          <span id="score" class="score"></span>
+        </div>
+        <div id="list"></div>
+      </section>
+
+      <section class="card">
+        <h2>2. One change that removes the work</h2>
+        <div class="small">Pick one scenario number. Describe one change that removes the patient or caregiver work rather than shifting it. State who pays and who benefits</div>
+        <div class="row">
+          <input id="pick" type="text" placeholder="Scenario number">
+          <input id="role" type="text" placeholder="Who pays and who benefits">
+        </div>
+        <textarea id="fix" placeholder="Write your change in one or two sentences"></textarea>
+        <div class="controls">
+          <button id="copy">Copy team result</button>
+          <button id="download">Download team result</button>
+        </div>
+        <div id="out" class="small mono"></div>
+      </section>
+    </div>
+
+    <section class="card">
+      <h2>Answer key and notes</h2>
+      <div id="ak" class="small">Key appears after you click Check answers</div>
+    </section>
+
+    <div class="footer">Single file for phones and laptops. No sign in needed</div>
+  </main>
+
+<script>
+const scenarios=[
+  {id:1,text:"Ultrasound report was faxed but is missing in the chart on surgery day",correct:"Repair"},
+  {id:2,text:"Wrong billing code creates a large balance",correct:"Repair"},
+  {id:3,text:"Hospital is in network but the radiologist reading the scan is not",correct:"Align"},
+  {id:4,text:"Human resources did not add the newborn to the plan within the deadline",correct:"Repair"},
+  {id:5,text:"Departments keep billing an old policy even after records are updated",correct:"Align"},
+  {id:6,text:"Clinics cannot share records and the parent hand carries paper copies",correct:"Align"},
+  {id:7,text:"Birth center does not connect to social security so insurer asks for special proof",correct:"Align"},
+  {id:8,text:"No equipment and long wait so you use another clinic or secondary insurance",correct:"Circumvent"}
+];
+
+function makeRow(s){
+  const wrap=document.createElement('div');
+  wrap.className='scenario';
+  wrap.id='row-'+s.id;
+  const left=document.createElement('div');
+  left.textContent=s.id+'. '+s.text;
+  const right=document.createElement('div');
+  const sel=document.createElement('select');
+  sel.id='sel-'+s.id;
+  ['', 'Repair','Align','Circumvent'].forEach(v=>{
+    const o=document.createElement('option');
+    o.value=v;
+    o.textContent=v===''?'Choose one':v;
+    sel.appendChild(o);
+  });
+  right.appendChild(sel);
+  wrap.appendChild(left);
+  wrap.appendChild(right);
+  return wrap;
+}
+
+function load(){
+  const list=document.getElementById('list');
+  list.innerHTML='';
+  scenarios.forEach(s=>list.appendChild(makeRow(s)));
+  document.getElementById('score').textContent='';
+  document.getElementById('ak').textContent='Key appears after you click Check answers';
+  scenarios.forEach(s=>{
+    const row=document.getElementById('row-'+s.id);
+    row.classList.remove('correct','incorrect');
+  });
+  document.getElementById('out').textContent='';
+}
+load();
+
+document.getElementById('check').addEventListener('click',()=>{
+  let correct=0;
+  let picks=[];
+  scenarios.forEach(s=>{
+    const sel=document.getElementById('sel-'+s.id);
+    const row=document.getElementById('row-'+s.id);
+    const choice=sel.value;
+    const ok=(choice===s.correct);
+    if(ok) correct+=1;
+    row.classList.remove('correct','incorrect');
+    row.classList.add(ok?'correct':'incorrect');
+    picks.push(s.id+':'+(choice||'-'));
+  });
+  document.getElementById('score').textContent='Score '+correct+' of '+scenarios.length;
+  document.getElementById('ak').textContent='Repair: 1, 2, 4    Align: 3, 5, 6, 7    Circumvent: 8';
+  const team=document.getElementById('team').value||'Team';
+  const pick=document.getElementById('pick').value||'';
+  const fix=(document.getElementById('fix').value||'').replace(/\s+/g,' ').trim();
+  const role=(document.getElementById('role').value||'').replace(/\s+/g,' ').trim();
+  const summary=[
+    'Healthcare Infrastructure Drill - Team result',
+    'Team: '+team,
+    'Choices: '+picks.join(' | '),
+    'Score: '+correct+' of '+scenarios.length,
+    'Chosen scenario: '+pick,
+    'Proposed change: '+fix,
+    'Who pays and who benefits: '+role
+  ].join('\n');
+  document.getElementById('out').textContent=summary;
+});
+
+document.getElementById('reset').addEventListener('click',load);
+
+// timer with progress bar
+let timerId=null;
+document.getElementById('start').addEventListener('click',()=>{
+  if(timerId) clearInterval(timerId);
+  let total=180;
+  let t=total;
+  const label=document.getElementById('clock');
+  const fill=document.getElementById('fill');
+  function render(){
+    const m=String(Math.floor(t/60)).padStart(2,'0');
+    const s=String(t%60).padStart(2,'0');
+    label.textContent=m+':'+s;
+    const pct=Math.min(100,Math.max(0,100*(1-(t/total))));
+    fill.style.width=pct+'%';
+  }
+  render();
+  timerId=setInterval(()=>{
+    t-=1;
+    if(t<0){
+      clearInterval(timerId);
+      label.textContent='00:00';
+      fill.style.width='100%';
+      alert('Time. Share your score and one change');
+      return;
+    }
+    render();
+  },1000);
+});
+
+function download(text, name){
+  const blob=new Blob([text],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=name;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById('download').addEventListener('click',()=>{
+  const txt=document.getElementById('out').textContent||'No result yet';
+  const team=(document.getElementById('team').value||'team');
+  download(txt, team+'_RAC_results.txt');
+});
+
+document.getElementById('copy').addEventListener('click',async()=>{
+  const txt=document.getElementById('out').textContent||'No result yet';
+  try{
+    await navigator.clipboard.writeText(txt);
+    alert('Copied');
+  }catch(e){
+    alert('Copy not available. Use Download team result');
+  }
+});
+</script>
+</body>
+</html>
